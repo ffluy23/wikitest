@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>테스트</title>
+
+<style>
+body {
+  margin: 0;
+  background-color: #f3f4f6;
+}
+
+.container {
+  width: 75%;
+  max-width: 1000px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ddd; 
+  margin: 0px 0 10px 0;  
+}
+
+
+
+/* 분류 박스 */
+.category-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #dfe1e2;
+  border-radius: 4px;
+  font-size: .9rem;
+  margin-bottom: 1em;
+  padding: .2rem .5rem;
+}
+
+.ad-banner {
+  width: 728px;
+  height: 90px;
+  margin: 0 0 24px;
+}
+
+.category-box span::after {
+  content: ": ";
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list li {
+  display: inline;
+}
+
+.category-list li:not(:last-child)::after {
+  content: " | ";
+}
+
+/* ===== 상단 레이아웃 (목차 + 프로필) ===== */
+
+.top-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* ===== 목차 ===== */
+
+.toc {
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 220px;
+  background: #ffffff;
+  font-size: 15px;
+}
+
+.toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0 0;
+}
+
+.toc li {
+  margin: 6px 0;
+}
+
+.toc a {
+  text-decoration: none;
+  color: #333;
+}
+
+.toc a:visited {
+  color: #333;
+}
+
+.toc a:hover {
+  text-decoration: underline;
+}
+  
+.toc strong {
+  font-size: 23px;
+  display: block;
+  margin-bottom: 10px;
+}
+  
+/* 숫자 파란색 */
+.section-number {
+  color: #0275D8; 
+}
+
+/* 목차 소문단 들여쓰기 */
+.toc ul ul {
+  margin-top: 5px;
+  margin-left: 20px;   /* ← 이게 들여쓰기 */
+  padding-left: 0;
+}
+/* ===== 프로필 테이블 ===== */
+
+.profile-table {
+  width: 400px;
+  margin-left: auto;   
+  border: 2px solid #00bfa5;
+  border-collapse: collapse;
+}
+
+.profile-table tr:not(:last-child) td {
+  border-bottom: 1px solid #fff;
+}
+
+.profile-table td {
+  padding: 5px 10px;
+}
+
+.profile-header {
+  background: #00bfa5;
+  color: #fff;
+  text-align: center;
+  font-size: 15pt;
+}
+
+.profile-subheader {
+  background: #5f8f96;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+}
+
+.profile-label {
+  background: #00bfa5;
+  color: #fff;
+  width: 35%;
+  text-align: center;
+  font-size: 11pt;
+}
+
+/* ===== 토글 ===== */
+
+/* ===== 토글 공통 ===== */
+
+.toggle {
+  display: none;
+}
+
+.toggle + .header {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 27px;
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+}
+
+.toggle:checked + .header {
+  opacity: 1;
+}
+
+.arrow {
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.toggle:checked + .header .arrow {
+  transform: rotate(90deg);
+}
+
+.content {
+  display: none;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+.toggle:checked ~ .content {
+  display: block;
+}
+
+/* 소문단 전용 */
+.sub-toggle + .header {
+  font-size: 26px;   /* 여기서 크기 조절 */
+}
+
+.sub-content {
+  margin-left: 15px; /* 들여쓰기 */
+}
+
+.toc-num {
+  color: #0275D8; 
+  font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>소(원신)</h1>
+  <div class="ad-banner"></div>
+
+  <div class="category-box">
+    <span>분류</span>
+    <ul class="category-list">
+      <li>
+  <a href="https://namu.wiki/w/분류:원신/플레이어블%20캐릭터/장병기"
+     style="color: #0275D8; text-decoration: none;">
+    원신/플레이어블 캐릭터/장병기
+  </a>
+</li>
+      <li>리월 선인</li>
+    </ul>
+  </div>
+
+  <div class="top-layout">
+
+    <div class="toc">
+  <strong>목차</strong>
+  <ul>
+    <li>
+      <a href="#section1">
+        <span class="toc-num">1.</span> 상세 정보
+      </a>
+      <ul>
+        <li>
+          <a href="#section1_1">
+            <span class="toc-num">1-1.</span> 배경
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <a href="#section2">
+        <span class="toc-num">2.</span> 평가
+      </a>
+    </li>
+
+    <li>
+      <a href="#section3">
+        <span class="toc-num">3.</span> 기타
+      </a>
+    </li>
+  </ul>
+</div>
+
+    <table class="profile-table">
+      <tr>
+        <td colspan="2" class="profile-header">
+          <strong>호법야차 · 소</strong><br>
+          Xiao: Vigilant Yaksha
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2" style="padding:0; text-align:center;">
+          <img
+            src="//i.namu.wiki/i/_ogsWEW7hOKc5GTGG4zoCuK9WC2_wpc8RVzgksFnOa8Y7WgoWkPDsywoHHsURZoWbjGN9KV44lMqDtirIL8b3uBTsUkDmHPPAcglAZet9mZ4rZ76C0wQY0fD6deXIzr0BGhetdHq0C5c9TbGfKhLZA.webp"
+            alt="소 캐릭터카드"
+            style="width:100%; height:auto; display:block;"
+            loading="lazy"
+          >
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2" class="profile-subheader">
+          리월을 수호하는 선인, 「야차」.<br>
+          「항마대성」 또는 「호법야차 대장」이라고도 불린다.
+        </td>
+      </tr>
+
+      <tr>
+        <td class="profile-label">본명</td>
+        <td>불명</td>
+      </tr>
+
+      <tr>
+        <td class="profile-label">성별</td>
+        <td>남성</td>
+      </tr>
+    </table>
+
+  </div>
+
+<!-- ===== 본문 토글 ===== -->
+
+<div style="margin-top: 30px;">
+
+  <!-- 1번 섹션 -->
+  <input type="checkbox" class="toggle" id="toggle1" checked>
+
+  <label for="toggle1" class="header">
+    <svg class="arrow" viewBox="0 0 24 24">
+      <path d="M8 5l8 7-8 7" fill="none" stroke="gray" stroke-width="2"/>
+    </svg>
+    <h3 id="section1">
+      <span class="section-number">1.</span> 상세 정보
+    </h3>
+  </label>
+
+  <hr>
+
+  <div class="content">
+    여기에 본문 내용<br>
+
+    <!-- 1-1 소문단 -->
+    <input type="checkbox" class="toggle sub-toggle" id="toggle1_1" checked>
+
+<label for="toggle1_1" class="header sub-header">
+  <svg class="arrow" viewBox="0 0 24 24">
+    <path d="M8 5l8 7-8 7" fill="none" stroke="gray" stroke-width="2"/>
+  </svg>
+  <h4 id="section1_1">
+    <span class="section-number">1-1.</span> 배경
+  </h4>
+</label>
+
+    <hr style="margin-left:20px;">
+
+    <div class="content sub-content">
+     테스트
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
