@@ -26,8 +26,96 @@ hr {
   margin: 0px 0 10px 0;  
 }
 
+/* 주석 */
+.footnote {
+  position: relative;
+  display: inline-block;
+}
 
+.footnote-btn {
+  font-size: 0.75em;
+  vertical-align: super;
+  color: #0275D8;
+  cursor: pointer;
+  text-decoration: none;
+}
 
+.footnote-popup {
+  display: none;
+  position: absolute;
+  bottom: 120%;
+  left: 0;
+  width: 260px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-size: 13px;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+.footnote.active .footnote-popup {
+  display: block;
+}
+
+.footnotes {
+  margin-top: 60px;
+  font-size: 14px;
+}
+
+.footnote-link {
+  color: #0275D8;          /* 원하는 색 */
+  text-decoration: none;
+}
+.footnote-link:visited {
+  color: #0275D8;
+}
+.footnote-link:hover {
+  text-decoration: underline;
+}
+
+/* 배경 어둡게 */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9998;
+}
+
+/* 모달 박스 */
+.footnote-modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  max-width: 90%;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 9999;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+
+/* 내용 영역 */
+.modal-content {
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* 닫기 버튼 영역 */
+.modal-footer {
+  background: #f1f1f1;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+  
 /* 분류 박스 */
 .category-box {
   display: flex;
@@ -120,7 +208,7 @@ hr {
 /* 목차 소문단 들여쓰기 */
 .toc ul ul {
   margin-top: 5px;
-  margin-left: 20px;   /* ← 이게 들여쓰기 */
+  margin-left: 20px;   /* 들여쓰기 */
   padding-left: 0;
 }
 /* ===== 프로필 테이블 ===== */
@@ -216,6 +304,14 @@ hr {
 .toc-num {
   color: #0275D8; 
   font-weight: 600;
+}
+
+#footnoteContainer a:focus {
+  outline: none;
+}
+
+.footnote-link:focus {
+  outline: none;
 }
 </style>
 </head>
@@ -335,24 +431,101 @@ hr {
     <!-- 1-1 소문단 -->
     <input type="checkbox" class="toggle sub-toggle" id="toggle1_1" checked>
 
-<label for="toggle1_1" class="header sub-header">
-  <svg class="arrow" viewBox="0 0 24 24">
-    <path d="M8 5l8 7-8 7" fill="none" stroke="gray" stroke-width="2"/>
-  </svg>
-  <h4 id="section1_1">
-    <span class="section-number">1-1.</span> 배경
-  </h4>
-</label>
+    <label for="toggle1_1" class="header sub-header">
+      <svg class="arrow" viewBox="0 0 24 24">
+        <path d="M8 5l8 7-8 7" fill="none" stroke="gray" stroke-width="2"/>
+      </svg>
+      <h4 id="section1_1">
+        <span class="section-number">1-1.</span> 배경
+      </h4>
+    </label>
 
-    <hr style="margin-left:20px;">
+    <hr>
 
     <div class="content sub-content">
-     테스트
+      테스트
+      <sup>
+        <a href="#" 
+           class="footnote-link"
+           data-note="주석 테스트">
+           [1]
+        </a>
+      </sup>
     </div>
 
   </div>
 
 </div>
 
+
+<!-- ===== 중앙 모달 ===== -->
+
+<div id="modalOverlay" class="modal-overlay"></div>
+
+<div id="footnoteModal" class="footnote-modal">
+  <div id="modalText" class="modal-content"></div>
+  <div id="modalClose" class="modal-footer">닫기</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const overlay = document.getElementById("modalOverlay");
+  const modal = document.getElementById("footnoteModal");
+  const modalText = document.getElementById("modalText");
+  const closeBtn = document.getElementById("modalClose");
+  const footnoteContainer = document.getElementById("footnoteContainer");
+
+  const notes = document.querySelectorAll(".footnote-link");
+
+  notes.forEach((note, index) => {
+    const number = index + 1;
+
+    // 본문 번호 자동 지정
+    note.textContent = `[${number}]`;
+
+    const refId = "footnote-ref-" + number;
+    note.id = refId;
+
+    // 하단 각주 생성
+    if (footnoteContainer) {
+      const li = document.createElement("li");
+
+      li.innerHTML = `
+        <a href="#${refId}" style="margin-right:6px; text-decoration:none; color:#0275D8;">
+          [${number}]
+        </a>
+        ${note.dataset.note}
+      `;
+
+      footnoteContainer.appendChild(li);
+    }
+  });
+
+  // 본문 각주 클릭 → 모달
+  document.addEventListener("click", function(e) {
+    if (e.target.classList.contains("footnote-link")) {
+      e.preventDefault();
+      modalText.innerHTML = e.target.dataset.note;
+      overlay.style.display = "block";
+      modal.style.display = "block";
+    }
+  });
+
+  // 닫기
+  function closeFootnote() {
+    overlay.style.display = "none";
+    modal.style.display = "none";
+  }
+
+  if (closeBtn) closeBtn.addEventListener("click", closeFootnote);
+  if (overlay) overlay.addEventListener("click", closeFootnote);
+
+});
+</script>
+<hr style="margin-top:60px;">
+<div id="footnoteList" style="font-size:14px; margin-top:20px;">
+  <ul id="footnoteContainer" style="list-style:none; padding-left:0;"></ul>
+</div>
 </body>
 </html>
